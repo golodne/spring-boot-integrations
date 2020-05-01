@@ -9,6 +9,6 @@ public interface IntegrationGateway {
     @Gateway(requestChannel = "integration.gateway.channel")
     public String sendMessage(String message);
 
-    @Gateway(requestChannel = "integration.student.objectToJson")
+    @Gateway(requestChannel = "mappingToJSON.channel")
     public String processStudentDetails(Student student);
 }

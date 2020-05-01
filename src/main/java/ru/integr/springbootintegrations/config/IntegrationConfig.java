@@ -29,21 +29,19 @@ public class IntegrationConfig {
     }
 
     @Bean
+    @Transformer(inputChannel = "mappingToJSON.channel", outputChannel = "processAfterConvertJSON")
+    public ObjectToJsonTransformer objectToJsonTransformer() {
+        return new ObjectToJsonTransformer(getMapper()); //toJSON
+    }
+
+    @Bean
     public Jackson2JsonObjectMapper getMapper() {
         ObjectMapper mapper = new ObjectMapper();
         return new Jackson2JsonObjectMapper(mapper);
     }
 
     @Bean
-    @Transformer(inputChannel="integration.student.gateway.channel",
-                 outputChannel="integration.student.objectToJson")
-    public ObjectToJsonTransformer objectToJsonTransformer() {
-        return new ObjectToJsonTransformer(getMapper());
-    }
-
-    @Bean
-    @Transformer(inputChannel = "integration.student.objectToJson",
-                 outputChannel = "integration.student.jsonToObject.fromTransformer")
+    @Transformer(inputChannel = "convertJSONToObject.chanel", outputChannel = "processAfterConvertToObject.chanel")
     JsonToObjectTransformer jsonToObjectTransformer() {
         return new JsonToObjectTransformer(Student.class);
     }

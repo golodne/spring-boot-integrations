@@ -10,8 +10,7 @@ import ru.integr.springbootintegrations.model.Student;
 
 @Component
 public class StudentService {
-    @ServiceActivator(inputChannel = "integration.student.objectToJson",
-                      outputChannel = "integration.student.jsonToObject.fromTransformer")
+    @ServiceActivator(inputChannel = "processAfterConvertJSON", outputChannel = "convertJSONToObject.chanel")
     public Message<?> recieveMessage(Message<?> message) throws MessagingException {
         System.out.println("##############################");
         System.out.println(message);
@@ -20,12 +19,13 @@ public class StudentService {
         return message;
     }
 
-    @ServiceActivator(inputChannel = "integration.student.jsonToObject.fromTransformer")
+    @ServiceActivator(inputChannel = "processAfterConvertToObject.chanel")
     public void processJsonToObject(Message<?> message) throws MessagingException {
         MessageChannel replayChannel = (MessageChannel) message.getHeaders().getReplyChannel();
         MessageBuilder.fromMessage(message);
         System.out.println("Json to Object " + message.getPayload());
         Student student = (Student) message.getPayload();
+        //prepare to string
         Message<?> mewMessage = MessageBuilder.withPayload(student.toString()).build();
         replayChannel.send(mewMessage);
     }

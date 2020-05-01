@@ -17,7 +17,7 @@ public class IntegrationController {
         return integrationGateway.sendMessage(name);
     }
 
-    @PostMapping
+    @PostMapping("/student")
     public String convertToMessage(@RequestBody Student request) {
         return integrationGateway.processStudentDetails(request);
     }
