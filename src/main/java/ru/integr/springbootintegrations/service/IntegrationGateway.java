@@ -6,13 +6,10 @@ import ru.integr.springbootintegrations.model.Student;
 
 @MessagingGateway
 public interface IntegrationGateway {
-    @Gateway(requestChannel = "integration.gateway.channel")
-    public String sendMessage(String message);
+ //   @Gateway(requestChannel = "integration.gateway.channel")
+//    public String sendMessage(String message);
 
-    @Gateway(requestChannel = "integration.student.gateway.channel")
-    public String processStudentDetails(Student student);
-
-    @Gateway(requestChannel = "transformM1toStudent")
-    public Student processM1toM2(String name);
+    @Gateway(requestChannel = "router.channel")
+    public <T> void process(T object);
 
 }
