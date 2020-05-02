@@ -1,10 +1,6 @@
 package ru.integr.springbootintegrations.model;
 
-import lombok.Data;
 import java.io.Serializable;
-
-import java.io.Serializable;
-
 public class Student implements Serializable {
 
     private static final long serialVersionUID = -7408851479146003262L;

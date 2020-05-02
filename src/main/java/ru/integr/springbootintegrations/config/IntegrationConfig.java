@@ -10,8 +10,14 @@ import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.json.JsonToObjectTransformer;
 import org.springframework.integration.json.ObjectToJsonTransformer;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
+import org.springframework.integration.transformer.HeaderEnricher;
+import org.springframework.integration.transformer.support.HeaderValueMessageProcessor;
+import org.springframework.integration.transformer.support.StaticHeaderValueMessageProcessor;
 import org.springframework.messaging.MessageChannel;
 import ru.integr.springbootintegrations.model.Student;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @EnableIntegration
@@ -26,6 +32,18 @@ public class IntegrationConfig {
     @Bean
     public MessageChannel replyChannel() {
         return new DirectChannel();
+    }
+
+    //modify some header
+    @Bean
+    @Transformer(inputChannel = "integration.student.gateway.channel",
+                 outputChannel = "mappingToJSON.channel")
+    public HeaderEnricher enricherHeader() {
+        Map<String, HeaderValueMessageProcessor<String>> headersToAdd = new HashMap<>();
+        headersToAdd.put("header1", new StaticHeaderValueMessageProcessor<String>("Test Header 1"));
+        headersToAdd.put("header2", new StaticHeaderValueMessageProcessor<String>("Test Header 2"));
+        HeaderEnricher enricher = new HeaderEnricher(headersToAdd);
+        return enricher;
     }
 
     @Bean
