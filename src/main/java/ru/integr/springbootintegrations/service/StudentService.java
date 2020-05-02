@@ -13,6 +13,7 @@ public class StudentService {
     @ServiceActivator(inputChannel = "processAfterConvertJSON", outputChannel = "convertJSONToObject.chanel")
     public Message<?> recieveMessage(Message<?> message) throws MessagingException {
         System.out.println("##############################");
+        System.out.println("Headers: "+message.getHeaders().toString());
         System.out.println(message);
         System.out.println("##############################");
         System.out.println("Object to JSON - " + message.getPayload());
