@@ -11,9 +11,17 @@ import ru.integr.springbootintegrations.model.Student;
 @Component
 public class StudentService {
 
-    @ServiceActivator(inputChannel = "student.channel")
-    public void recieveMessage(Message<?> message) throws MessagingException {
-        System.out.println("##########student.chanel############");
+    @ServiceActivator(inputChannel = "student.channel.1")
+    public void recieveMessage1(Message<?> message) throws MessagingException {
+        System.out.println("##########student.channel.1############");
+        System.out.println(message);
+        System.out.println("#####################################");
+        System.out.println(message.getPayload());
+    }
+
+    @ServiceActivator(inputChannel = "student.channel.2")
+    public void recieveMessage2(Message<?> message) throws MessagingException {
+        System.out.println("##########student.channel.2############");
         System.out.println(message);
         System.out.println("#####################################");
         System.out.println(message.getPayload());

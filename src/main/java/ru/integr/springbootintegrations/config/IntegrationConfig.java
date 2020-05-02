@@ -11,6 +11,7 @@ import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.json.JsonToObjectTransformer;
 import org.springframework.integration.json.ObjectToJsonTransformer;
 import org.springframework.integration.router.PayloadTypeRouter;
+import org.springframework.integration.router.RecipientListRouter;
 import org.springframework.integration.support.json.Jackson2JsonObjectMapper;
 import org.springframework.integration.transformer.HeaderEnricher;
 import org.springframework.integration.transformer.support.HeaderValueMessageProcessor;
@@ -45,6 +46,17 @@ public class IntegrationConfig {
         router.setChannelMapping(Address.class.getName(),"address.channel");
         return router;
     }
+
+    //wont recipe register get student.channel on two system
+    @ServiceActivator(inputChannel = "student.channel")
+    @Bean
+    public RecipientListRouter recipientListRouter() {
+        RecipientListRouter router = new RecipientListRouter();
+        router.addRecipient("student.channel.1");
+        router.addRecipient("student.channel.2");
+        return router;
+    }
+
 
     /*
     //modify some header
